@@ -1,4 +1,5 @@
 'use client'
+import Menu from "@/app/components/Menu";
 import instance from "@/service/api";
 import { useEffect, useState } from "react";
 
@@ -53,6 +54,7 @@ export default function SituationList(){
 
     return(
         <div>
+           <Menu/> <br />
             <h1>Listar as situações</h1>
 
             {/* exibir mensagem de carregamento */}

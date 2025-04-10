@@ -1,6 +1,7 @@
 'use client'
 import instance from "@/service/api";
 import { useEffect, useState } from "react";
+import Menu from "@/app/components/Menu";
 
 //definir tipos para a resposta da API
 interface productCategory {
@@ -53,6 +54,7 @@ export default function productCategoryList(){
 
     return(
         <div>
+             <Menu/> <br />
             <h1>Listar as categorias</h1>
 
             {/* exibir mensagem de carregamento */}
