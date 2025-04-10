@@ -1,5 +1,6 @@
 'use client'
 import Menu from "@/app/components/Menu";
+import Pagination from "@/app/components/Pagination";
 import instance from "@/service/api";
 import { useEffect, useState } from "react";
 
@@ -50,12 +51,11 @@ export default function SituationList(){
         fetchSituations(currentPage);
 
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
-    
 
     return(
         <div>
            <Menu/> <br />
-            <h1>Listar as situações</h1>
+            <h1>Listar as situações</h1><br />
 
             {/* exibir mensagem de carregamento */}
             {loading && <p>Carregando...</p>}
@@ -82,6 +82,12 @@ export default function SituationList(){
                     </tbody>
                 </table>
             )}
+            <br />
+            <Pagination
+            currentPage={currentPage}
+            lastPage={lastPage}
+            onPageChange={setCurrentPage}
+            />
         </div>
     )
 }

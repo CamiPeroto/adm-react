@@ -2,6 +2,7 @@
 import instance from "@/service/api";
 import { useEffect, useState } from "react";
 import Menu from "@/app/components/Menu";
+import Pagination from "@/app/components/Pagination";
 
 //definir tipos para a resposta da API
 interface productCategory {
@@ -51,7 +52,6 @@ export default function productCategoryList(){
 
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
     
-
     return(
         <div>
              <Menu/> <br />
@@ -82,6 +82,12 @@ export default function productCategoryList(){
                     </tbody>
                 </table>
             )}
+            <br />
+            <Pagination
+            currentPage={currentPage}
+            lastPage={lastPage}
+            onPageChange={setCurrentPage}
+            />
         </div>
     )
 }
