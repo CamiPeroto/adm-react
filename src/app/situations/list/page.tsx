@@ -2,6 +2,7 @@
 import Menu from "@/app/components/Menu";
 import Pagination from "@/app/components/Pagination";
 import instance from "@/service/api";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 //definir tipos para a resposta da API
@@ -14,7 +15,7 @@ interface Situation {
 }
 
 export default function SituationList(){
-    const [situations, setsituations] = useState<Situation[]>([]);
+    const [situations, setSituations] = useState<Situation[]>([]);
     //Apresentar carregamento
     const [loading, setLoading] = useState<boolean>(true);
     //Apresentar erros
@@ -28,11 +29,11 @@ export default function SituationList(){
     const fetchSituations = async (page:number) =>{
         try{
             //Iniciar o carregamento 
-            // setLoading(true);
+            setLoading(true);
             //Fazer a requisição à API
             const response = await instance.get(`/situations?page=${page}&limit=10`);
             //Atualizar o estado com os dados da API
-            setsituations (response.data.data);
+            setSituations (response.data.data);
             //Atualizar a página atual
             setCurrentPage (response.data.currentPage)
             //Atualizar a última página
@@ -76,7 +77,9 @@ export default function SituationList(){
                             <tr key = {situation.id}>
                                 <td>{situation.id}</td>
                                 <td>{situation.nameSituation}</td>
-                                <td>Visualizar - Editar - Apagar</td>
+                                <td>
+                                   <Link href={`/situations/${situation.id}`}> Visualizar </Link>
+                                     - Editar - Apagar</td>
                             </tr>
                         ))}
                     </tbody>

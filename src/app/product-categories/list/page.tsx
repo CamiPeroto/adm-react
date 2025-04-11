@@ -28,7 +28,7 @@ export default function productCategoryList(){
     const fetchCategories = async (page:number) =>{
         try{
             //Iniciar o carregamento 
-            // setLoading(true);
+            setLoading(true);
             //Fazer a requisição à API
             const response = await instance.get(`/product-categories?page=${page}&limit=10`);
             //Atualizar o estado com os dados da API
