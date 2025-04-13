@@ -69,12 +69,13 @@ export default function CreateProductSituation() {
 
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="name">Nome da Situação</label>
+                <label htmlFor="name">Nome da Situação: </label>
                 <input 
                 type="text" 
                 id="name" 
                 value = {name} 
                 placeholder="Nome da Situação" 
+                className="border"
                 onChange={(e) => setName(e.target.value)}
                 />
             </div>

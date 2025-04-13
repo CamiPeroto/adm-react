@@ -69,12 +69,13 @@ export default function CreateProductCategory() {
 
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="name">Nome da Categoria</label>
+                <label htmlFor="name">Nome da Categoria: </label>
                 <input 
                 type="text" 
                 id="name" 
                 value = {name} 
                 placeholder="Nome da Categoria" 
+                className="border"
                 onChange={(e) => setName(e.target.value)}
                 />
             </div>

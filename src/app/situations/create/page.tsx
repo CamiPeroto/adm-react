@@ -47,7 +47,6 @@ export default function CreateSituation() {
             }
         }else{
             setError("Erro ao criar a situação!");
-            setLoading(false);
         }
     }finally{
         //termina o carregamento 
@@ -69,12 +68,13 @@ export default function CreateSituation() {
 
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="nameSituation">Nome da Situação</label>
+                <label htmlFor="nameSituation">Nome da Situação: </label>
                 <input 
                 type="text" 
                 id="nameSituation" 
                 value = {nameSituation} 
                 placeholder="Nome da Situação" 
+                className="border"
                 onChange={(e) => setNameSituation(e.target.value)}
                 />
             </div>
