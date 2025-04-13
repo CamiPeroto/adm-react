@@ -78,7 +78,8 @@ export default function productCategoryList(){
                             <tr key = {productCategory.id}>
                                 <td>{productCategory.id}</td>
                                 <td>{productCategory.name}</td>
-                                <td>Visualizar - Editar - Apagar</td>
+                                <td> <Link href={`/product-categories/${productCategory.id}`}> Visualizar </Link>    
+                                - Editar - Apagar</td>
                             </tr>
                         ))}
                     </tbody>

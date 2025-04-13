@@ -79,7 +79,8 @@ export default function productSituationList(){
                             <tr key = {productSituation.id}>
                                 <td>{productSituation.id}</td>
                                 <td>{productSituation.name}</td>
-                                <td>Visualizar - Editar - Apagar</td>
+                                <td> <Link href={`/product-situations/${productSituation.id}`}> Visualizar </Link>    
+                                - Editar - Apagar</td>
                             </tr>
                         ))}
                     </tbody>
