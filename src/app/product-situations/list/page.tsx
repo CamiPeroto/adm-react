@@ -3,6 +3,7 @@ import instance from "@/service/api";
 import { useEffect, useState } from "react";
 import Menu from "@/app/components/Menu";
 import Pagination from "@/app/components/Pagination";
+import Link from "next/link";
 
 
 //definir tipos para a resposta da API
@@ -56,6 +57,7 @@ export default function productSituationList(){
     return(
         <div>
              <Menu/><br />
+             <Link href = {`/product-situations/create`}>Cadastrar</Link> <br />
             <h1>Listar as situações</h1>
 
             {/* exibir mensagem de carregamento */}

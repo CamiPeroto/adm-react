@@ -3,6 +3,7 @@ import instance from "@/service/api";
 import { useEffect, useState } from "react";
 import Menu from "@/app/components/Menu";
 import Pagination from "@/app/components/Pagination";
+import Link from "next/link";
 
 //definir tipos para a resposta da API
 interface productCategory {
@@ -55,6 +56,7 @@ export default function productCategoryList(){
     return(
         <div>
              <Menu/> <br />
+             <Link href = {`/product-categories/create`}>Cadastrar</Link> <br />
             <h1>Listar as categorias</h1>
 
             {/* exibir mensagem de carregamento */}

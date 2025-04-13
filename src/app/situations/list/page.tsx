@@ -56,12 +56,13 @@ export default function SituationList(){
     return(
         <div>
            <Menu/> <br />
+           <Link href = {`/situations/create`}>Cadastrar</Link> <br />
             <h1>Listar as situações</h1><br />
 
             {/* exibir mensagem de carregamento */}
             {loading && <p>Carregando...</p>}
             {/* exibir erro, se houver */}
-            {error && <p>{error}</p>}
+            {error && <p style ={{color: "#f00"}}>{error}</p>}
 
             {!loading && !error && (
                 <table>
