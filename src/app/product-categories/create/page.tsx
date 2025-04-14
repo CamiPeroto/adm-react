@@ -1,23 +1,31 @@
 "use client";
 import { useState } from "react";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from "react-hook-form";
 import instance from "@/service/api";
 import Menu from "@/app/components/Menu";
 import Link from "next/link";
 
+//esquema de validação com yup
+const schema = yup.object().shape({
+name: yup.string().required("O campo nome da categoria é obrigatório!")
+.min(3, "A categoria deve ter pelo menos 3 caracteres!"),
+});
+
 export default function CreateProductCategory() {
-  //Estado para o campo name
-  const [name, setName] = useState<string>("");
   //Apresentar carregamento
   const [loading, setLoading] = useState<boolean>(false);
   //Apresentar erros
   const [error, setError] = useState<string | null>(null);
   //Apresentar sucesso
   const [success, setSuccess] = useState<string | null>(null);
+  const {register, handleSubmit, formState: {errors}, reset} = useForm({
+resolver:yupResolver(schema),
+      })
   
   //Função para enviar os dados para a API
-  const handleSubmit = async (event: React.FormEvent) => {
-    //evitar o recarregar da página ao enviar o form
-    event.preventDefault();
+  const onSubmit = async (data: {name: string}) => {
     //inicia o carregamento
     setLoading(true);
     //limpa o erro anterior
@@ -27,13 +35,11 @@ export default function CreateProductCategory() {
 
     try{
         //fazer a requisição pra api e enviar os dados
-        const response = await instance.post("/product-categories", {
-            name: name,
-        });
+        const response = await instance.post("/product-categories", data);
         //exibir mensagem de sucesso
         setSuccess(response.data.message || "Categoria cadastrada com sucesso!");
         //limpa o campo do formulário
-        setName("");
+        reset();
 
     }catch(error: any){
         //verifica se o erro contem mensagens de validação
@@ -67,17 +73,18 @@ export default function CreateProductCategory() {
         {/* exibir sucesso, se houver */}
         {success && <p style ={{color: "#086"}}>{success}</p>}
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <label htmlFor="name">Nome da Categoria: </label>
                 <input 
                 type="text" 
                 id="name" 
-                value = {name} 
+                {...register('name')}
                 placeholder="Nome da Categoria" 
                 className="border"
-                onChange={(e) => setName(e.target.value)}
                 />
+                 {/* exibe o erro de validação do campo */}
+                 {errors.name && <p style ={{color: "#f00"}}>{errors.name.message}</p>}
             </div>
             <button type="submit" disabled ={loading}>
                 {loading ? "Enviando..." : "Cadastrar"}
