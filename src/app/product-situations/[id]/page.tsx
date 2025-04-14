@@ -2,8 +2,11 @@
 import { useEffect, useState } from "react";
 import instance from "@/service/api";
 import Menu from "@/app/components/Menu";
+import DeleteButton from "@/app/components/DeleteButton";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+//hook pra manipular navegação do usuário
+import { useRouter } from "next/navigation";
 
 interface ProductSituation {
     id: number,
@@ -15,13 +18,16 @@ interface ProductSituation {
 export default function ProductSituationDetails(){
     //usar o useparams para acessar o id da url
     const { id } = useParams();
+      //instanciar o objeto router
+      const router = useRouter();
 
     const [productSituation, setProductSituation] = useState<ProductSituation | null>(null);  //Apresentar carregamento
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    
+    const [success, setSuccess] = useState<string | null>(null);
+
     //Função para buscar a situação 
-    const fetchSituationDetails = async (id: string) => {
+    const fetchProductSituationDetails = async (id: string) => {
         try{
             //Iniciar o carregamento 
             setLoading(true);
@@ -43,12 +49,19 @@ export default function ProductSituationDetails(){
             setLoading(false);
         }
     }
+      //Atualizar a lista de registros após apagar um registro
+      const handleSuccess = () =>{
+        //salvar a mensagem no sessionStorage antes de redirecionar
+        sessionStorage.setItem("successMessage", "Registro apagado com sucesso!")
+        //redireciona para a página listar
+        router.push("/product-situations/list");
+      }
     useEffect(()=>{
         if(id){
             //garantir que o id seja uma string
             const situationId = Array.isArray(id) ? id[0]: id;
             // buscar os dados da situação se o id estiver disponível
-            fetchSituationDetails(situationId);
+            fetchProductSituationDetails(situationId);
         }
 
     }, [id]); //Recarregar os dados quando o ID mudar
@@ -56,13 +69,26 @@ export default function ProductSituationDetails(){
     return(
         <div>
              <Menu/> <br />
-             <Link href={`/product-situations/list`}>Listar</Link>
+             <Link href={`/product-situations/list`}>Listar</Link> <br />
+             <Link href={`/product-situations/${id}/edit`}>Editar</Link>
+
+             {productSituation && !loading && !error &&(
+               <DeleteButton
+               id={String(productSituation.id)}
+               route="product-situations"
+               onSuccess={handleSuccess}
+               setError={setError}
+               setSuccess={setSuccess}
+               />
+             )}
              <h1>Detalhes da situação</h1><br />
 
             {/* exibir mensagem de carregamento */}
             {loading && <p>Carregando...</p>}
             {/* exibir erro, se houver */}
              {error && <p style ={{color: "#f00"}}>{error}</p>}
+             {/* exibir sucesso, se houver */}
+            {success && <p style ={{color: "#086"}}>{success}</p>}
 
             {/* Imprimir os detalhes do Registro */}
             {productSituation && !loading && !error &&(

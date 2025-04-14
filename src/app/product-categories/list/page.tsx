@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Menu from "@/app/components/Menu";
 import Pagination from "@/app/components/Pagination";
 import Link from "next/link";
+import DeleteButton from "@/app/components/DeleteButton";
 
 //definir tipos para a resposta da API
 interface productCategory {
@@ -20,13 +21,14 @@ export default function productCategoryList(){
     const [loading, setLoading] = useState<boolean>(true);
     //Apresentar erros
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     //Página atual
     const [currentPage, setCurrentPage] = useState <number>(1);
     //última Página
     const [lastPage, setLastPage] = useState <number>(1);
 
     //Função para buscar as situações da API
-    const fetchCategories = async (page:number) =>{
+    const fetchProductCategories = async (page:number) =>{
         try{
             //Iniciar o carregamento 
             setLoading(true);
@@ -46,10 +48,22 @@ export default function productCategoryList(){
             setLoading(false);
         }
     };
+    //Atualizar a lista de registros após apagar um registro
+    const handleSuccess = () =>{
+        fetchProductCategories(currentPage)
+    }
     //hook para buscar os dados na primeira renderização
     useEffect(()=> {
+          //recuperar a mensagem salva no sessionStorage do visualizar
+          const message = sessionStorage.getItem("successMessage");
+          //verificar se existe a mensagem
+          if(message){
+              //atribui a mensagem
+              setSuccess(message);
+              sessionStorage.removeItem("successMessage");
+          }
         //Buscar os dados ao carregar a página
-        fetchCategories(currentPage);
+        fetchProductCategories(currentPage);
 
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
     
@@ -62,7 +76,9 @@ export default function productCategoryList(){
             {/* exibir mensagem de carregamento */}
             {loading && <p>Carregando...</p>}
             {/* exibir erro, se houver */}
-            {error && <p>{error}</p>}
+            {error && <p style ={{color: "#f00"}}>{error}</p>}
+            {/* exibir sucesso, se houver */}
+            {success && <p style ={{color: "#086"}}>{success}</p>}
 
             {!loading && !error && (
                 <table>
@@ -80,7 +96,15 @@ export default function productCategoryList(){
                                 <td>{productCategory.name}</td>
                                 <td> <Link href={`/product-categories/${productCategory.id}`}> Visualizar </Link>
                                 <Link href={`/product-categories/${productCategory.id}/edit`}> - Editar  </Link>   
-                                - Apagar</td>
+                                
+                                <DeleteButton
+                                   id={String(productCategory.id)}
+                                   route="product-categories"
+                                   onSuccess={handleSuccess}
+                                   setError={setError}
+                                   setSuccess={setSuccess}
+                                   />
+                                </td>
                             </tr>
                         ))}
                     </tbody>

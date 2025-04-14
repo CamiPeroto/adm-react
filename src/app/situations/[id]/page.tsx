@@ -1,24 +1,28 @@
 'use client'
 import { useEffect, useState } from "react";
-import instance from "@/service/api";
-import Menu from "@/app/components/Menu";
-import Link from "next/link";
+//hook pra manipular navegação do usuário
+import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
-
+import instance from "@/service/api";
+import Link from "next/link";
+import Menu from "@/app/components/Menu";
+import DeleteButton from "@/app/components/DeleteButton";
 interface Situation {
     id: number,
     nameSituation: string,
     createdAt: Date,
     updatedAt: Date,
 }
-
 export default function SituationDetails(){
     //usar o useparams para acessar o id da url
     const { id } = useParams();
+    //instanciar o objeto router
+    const router = useRouter();
 
     const [situation, setSituation] = useState<Situation | null>(null);  //Apresentar carregamento
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     
     //Função para buscar a situação 
     const fetchSituationDetails = async (id: string) => {
@@ -43,6 +47,14 @@ export default function SituationDetails(){
             setLoading(false);
         }
     }
+    //Atualizar a lista de registros após apagar um registro
+    const handleSuccess = () =>{
+      //salvar a mensagem no sessionStorage antes de redirecionar
+      sessionStorage.setItem("successMessage", "Registro apagado com sucesso!");
+      //redireciona para a página listar
+      router.push("/situations/list");
+    }
+
     useEffect(()=>{
         if(id){
             //garantir que o id seja uma string
@@ -56,13 +68,27 @@ export default function SituationDetails(){
     return(
         <div>
              <Menu/> <br />
-             <Link href={`/situations/list`}>Listar</Link>
+             <Link href={`/situations/list`}>Listar</Link><br />
+             <Link href={`/situations/${id}/edit`}>Editar</Link>
+
+             {situation && !loading && !error &&(
+               <DeleteButton
+               id={String(situation.id)}
+               route="situations"
+               onSuccess={handleSuccess}
+               setError={setError}
+               setSuccess={setSuccess}
+               />
+             )}
+
              <h1>Detalhes da situação</h1><br />
 
             {/* exibir mensagem de carregamento */}
             {loading && <p>Carregando...</p>}
             {/* exibir erro, se houver */}
              {error && <p style ={{color: "#f00"}}>{error}</p>}
+                {/* exibir sucesso, se houver */}
+            {success && <p style ={{color: "#086"}}>{success}</p>}
 
             {/* Imprimir os detalhes do Registro */}
             {situation && !loading && !error &&(
@@ -74,9 +100,6 @@ export default function SituationDetails(){
 
                 </div>
             )}
-
-
-
         </div>
     )
 }

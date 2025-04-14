@@ -1,9 +1,12 @@
 'use client'
 import { useEffect, useState } from "react";
+//hook pra manipular navegação do usuário
+import { useRouter } from "next/navigation";
 import instance from "@/service/api";
 import Menu from "@/app/components/Menu";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import DeleteButton from "@/app/components/DeleteButton";
 
 interface ProductCategory {
     id: number,
@@ -11,14 +14,16 @@ interface ProductCategory {
     createdAt: Date,
     updatedAt: Date,
 }
-
 export default function ProductCategoryDetails(){
     //usar o useparams para acessar o id da url
     const { id } = useParams();
+       //instanciar o objeto router
+       const router = useRouter();
 
     const [productCategory, setProductCategory] = useState<ProductCategory | null>(null);  //Apresentar carregamento
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     
     //Função para buscar a situação 
     const fetchCategoryDetails = async (id: string) => {
@@ -41,6 +46,14 @@ export default function ProductCategoryDetails(){
             setLoading(false);
         }
     }
+      //Atualizar a lista de registros após apagar um registro
+      const handleSuccess = () =>{
+        //salvar a mensagem no sessionStorage antes de redirecionar
+        sessionStorage.setItem("successMessage", "Registro apagado com sucesso!");
+        //redireciona para a página listar
+        router.push("/product-categories/list");
+      }
+
     useEffect(()=>{
         if(id){
             //garantir que o id seja uma string
@@ -54,12 +67,25 @@ export default function ProductCategoryDetails(){
         <div>
              <Menu/> <br />
              <Link href={`/product-categories/list`}>Listar</Link>
+              <Link href={`/product-categories/${id}/edit`}>Editar</Link>
+
+             {productCategory && !loading && !error &&(
+               <DeleteButton
+               id={String(productCategory.id)}
+               route="product-categories"
+               onSuccess={handleSuccess}
+               setError={setError}
+               setSuccess={setSuccess}
+               />
+             )}
              <h1>Detalhes da Categoria</h1><br />
 
             {/* exibir mensagem de carregamento */}
             {loading && <p>Carregando...</p>}
             {/* exibir erro, se houver */}
-             {error && <p style ={{color: "#f00"}}>{error}</p>}
+            {error && <p style ={{color: "#f00"}}>{error}</p>}
+            {/* exibir sucesso, se houver */}
+            {success && <p style ={{color: "#086"}}>{success}</p>}
 
             {/* Imprimir os detalhes do Registro */}
             {productCategory && !loading && !error &&(

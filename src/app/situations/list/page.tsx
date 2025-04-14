@@ -1,9 +1,12 @@
 'use client'
-import Menu from "@/app/components/Menu";
-import Pagination from "@/app/components/Pagination";
+import { useEffect, useState } from "react";
 import instance from "@/service/api";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import Menu from "@/app/components/Menu";
+import Pagination from "@/app/components/Pagination";
+import DeleteButton from "@/app/components/DeleteButton";
+
+
 
 //definir tipos para a resposta da API
 interface Situation {
@@ -20,6 +23,7 @@ export default function SituationList(){
     const [loading, setLoading] = useState<boolean>(true);
     //Apresentar erros
     const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     //Página atual
     const [currentPage, setCurrentPage] = useState <number>(1);
     //última Página
@@ -46,8 +50,22 @@ export default function SituationList(){
             setLoading(false);
         }
     };
+
+    //Atualizar a lista de registros após apagar um registro
+    const handleSuccess = () =>{
+        fetchSituations(currentPage)
+    }
+
     //hook para buscar os dados na primeira renderização
     useEffect(()=> {
+        //recuperar a mensagem salva no sessionStorage do visualizar
+        const message = sessionStorage.getItem("successMessage");
+        //verificar se existe a mensagem
+        if(message){
+            //atribui a mensagem
+            setSuccess(message);
+            sessionStorage.removeItem("successMessage");
+        }
         //Buscar os dados ao carregar a página
         fetchSituations(currentPage);
 
@@ -63,6 +81,8 @@ export default function SituationList(){
             {loading && <p>Carregando...</p>}
             {/* exibir erro, se houver */}
             {error && <p style ={{color: "#f00"}}>{error}</p>}
+            {/* exibir sucesso, se houver */}
+            {success && <p style ={{color: "#086"}}>{success}</p>}
 
             {!loading && !error && (
                 <table>
@@ -81,7 +101,15 @@ export default function SituationList(){
                                 <td>
                                    <Link href={`/situations/${situation.id}`}> Visualizar </Link>
                                    <Link href={`/situations/${situation.id}/edit`}> - Editar  </Link>
-                                     - Apagar</td>
+            
+                                   <DeleteButton
+                                   id={String(situation.id)}
+                                   route="situations"
+                                   onSuccess={handleSuccess}
+                                   setError={setError}
+                                   setSuccess={setSuccess}
+                                   />
+                               </td>
                             </tr>
                         ))}
                     </tbody>
