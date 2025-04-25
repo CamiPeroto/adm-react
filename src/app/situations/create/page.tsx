@@ -22,12 +22,11 @@ export default function CreateSituation() {
   const [error, setError] = useState<string | null>(null);
   //Apresentar sucesso
   const [success, setSuccess] = useState<string | null>(null);
-  
+  //iniciar o formulário com as validações
   const {register, handleSubmit, formState: {errors}, reset} = useForm({
     resolver:yupResolver(schema),
-  })
+  });
 
-  
   //Função para enviar os dados para a API
   const onSubmit = async (data: {nameSituation: string}) => {
     //evitar o recarregar da página ao enviar o form
