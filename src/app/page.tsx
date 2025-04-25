@@ -1,10 +1,10 @@
-import Menu from "@/app/components/Menu";
-
+import Link from "next/link";
 export default function Home() {
   return (
   <div>
-     <Menu/><br />
+
     <h1>Bem vinda, Camis!</h1>
+    <Link href= "/login">Login</Link>
   </div>
   );
 }
