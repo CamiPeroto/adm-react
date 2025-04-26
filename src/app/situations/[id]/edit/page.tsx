@@ -7,6 +7,7 @@ import instance from "@/service/api";
 import Menu from "@/app/components/Menu";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 //esquema de validação com yup
 const schema = yup.object().shape({
@@ -95,7 +96,7 @@ export default function EditSituation() {
     }
   }, [id]); //recarrega os dados quando o id mudar
   return(
-    <div>
+    <ProtectedRoute>
     <Menu/> <br />
 
     <Link href={`/situations/list`}>Listar</Link><br />
@@ -124,6 +125,6 @@ export default function EditSituation() {
              {loading ? "Enviando..." : "Salvar"}
          </button>
      </form>
- </div>
+ </ProtectedRoute>
   )
 }

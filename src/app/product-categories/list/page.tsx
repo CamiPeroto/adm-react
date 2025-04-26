@@ -5,6 +5,7 @@ import Menu from "@/app/components/Menu";
 import Pagination from "@/app/components/Pagination";
 import Link from "next/link";
 import DeleteButton from "@/app/components/DeleteButton";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 //definir tipos para a resposta da API
 interface productCategory {
@@ -68,7 +69,7 @@ export default function productCategoryList(){
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
     
     return(
-        <div>
+        <ProtectedRoute>
              <Menu/> <br />
              <Link href = {`/product-categories/create`}>Cadastrar</Link> <br />
             <h1>Listar as categorias</h1>
@@ -116,6 +117,6 @@ export default function productCategoryList(){
             lastPage={lastPage}
             onPageChange={setCurrentPage}
             />
-        </div>
+        </ProtectedRoute>
     )
 }

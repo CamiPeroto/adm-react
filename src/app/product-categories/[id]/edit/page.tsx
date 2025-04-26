@@ -7,6 +7,7 @@ import instance from "@/service/api";
 import Menu from "@/app/components/Menu";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 //esquema de validação com yup
 const schema = yup.object().shape({
@@ -93,7 +94,7 @@ export default function EditProductCategory() {
     }
   }, [id]); //recarrega os dados quando o id mudar
   return(
-    <div>
+    <ProtectedRoute>
     <Menu/> <br />
 
     <Link href={`/product-categories/list`}>Listar</Link><br /><br />
@@ -122,6 +123,6 @@ export default function EditProductCategory() {
              {loading ? "Enviando..." : "Salvar"}
          </button>
      </form>
- </div>
+ </ProtectedRoute>
   )
 }

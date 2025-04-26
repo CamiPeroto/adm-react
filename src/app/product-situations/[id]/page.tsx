@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 //hook pra manipular navegação do usuário
 import { useRouter } from "next/navigation";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 interface ProductSituation {
     id: number,
@@ -67,7 +68,7 @@ export default function ProductSituationDetails(){
     }, [id]); //Recarregar os dados quando o ID mudar
 
     return(
-        <div>
+        <ProtectedRoute>
              <Menu/> <br />
              <Link href={`/product-situations/list`}>Listar</Link> <br />
              <Link href={`/product-situations/${id}/edit`}>Editar</Link>
@@ -99,6 +100,6 @@ export default function ProductSituationDetails(){
                     <p>Editado em: {new Date(productSituation.updatedAt).toLocaleString()}</p>
                 </div>
             )}
-        </div>
+        </ProtectedRoute>
     )
 }

@@ -5,6 +5,7 @@ import Menu from "@/app/components/Menu";
 import DeleteButton from "@/app/components/DeleteButton"; 
 import Pagination from "@/app/components/Pagination";
 import Link from "next/link";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 
 //definir tipos para a resposta da API
@@ -69,7 +70,7 @@ export default function productSituationList(){
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
 
     return(
-        <div>
+        <ProtectedRoute>
              <Menu/><br />
              <Link href = {`/product-situations/create`}>Cadastrar</Link> <br />
             <h1>Listar as situações</h1>
@@ -117,6 +118,6 @@ export default function productSituationList(){
             lastPage={lastPage}
             onPageChange={setCurrentPage}
             />
-        </div>
+        </ProtectedRoute>
     );
 }

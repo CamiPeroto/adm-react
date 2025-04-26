@@ -7,6 +7,8 @@ import instance from "@/service/api";
 import Link from "next/link";
 import Menu from "@/app/components/Menu";
 import DeleteButton from "@/app/components/DeleteButton";
+//importar componente de proteção de rotas
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 interface Situation {
     id: number,
     nameSituation: string,
@@ -66,7 +68,7 @@ export default function SituationDetails(){
     }, [id]); //Recarregar os dados quando o ID mudar
 
     return(
-        <div>
+        <ProtectedRoute>
              <Menu/> <br />
              <Link href={`/situations/list`}>Listar</Link><br />
              <Link href={`/situations/${id}/edit`}>Editar</Link>
@@ -100,6 +102,6 @@ export default function SituationDetails(){
 
                 </div>
             )}
-        </div>
+        </ProtectedRoute>
     )
 }

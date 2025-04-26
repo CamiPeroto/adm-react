@@ -49,9 +49,12 @@ export default function LoginPage(){
        const response = await instance.post("/", data);
         //exibir mensagem de sucesso
         // alert(response.data.message ||"Login realizado com sucesso!");
-        console.log(response.data)
+        console.log(response.data);
+        //salvar o token no localStorage
+        localStorage.setItem("token", response.data.user.token);
+        
         //redirecionar para o dashboard
-        // router.push("/dashboard")
+        router.push("/dashboard");
 
     }catch(error: any){
         //verifica se o erro contem mensagens de validação

@@ -5,6 +5,8 @@ import Link from "next/link";
 import Menu from "@/app/components/Menu";
 import Pagination from "@/app/components/Pagination";
 import DeleteButton from "@/app/components/DeleteButton";
+//importar componente de proteção de rotas
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 
 
@@ -72,7 +74,7 @@ export default function SituationList(){
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
 
     return(
-        <div>
+        <ProtectedRoute>
            <Menu/> <br />
            <Link href = {`/situations/create`}>Cadastrar</Link> <br />
             <h1>Listar as situações</h1><br />
@@ -121,6 +123,6 @@ export default function SituationList(){
             lastPage={lastPage}
             onPageChange={setCurrentPage}
             />
-        </div>
+        </ProtectedRoute>
     )
 }

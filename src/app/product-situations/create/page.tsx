@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import instance from "@/service/api";
 import Menu from "@/app/components/Menu";
 import Link from "next/link";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 //esquema de validação com yup
 const schema = yup.object().shape({
@@ -61,7 +62,7 @@ export default function CreateProductSituation() {
     }
   }
   return(
-    <div>
+    <ProtectedRoute>
        <Menu/> <br />
 
        <Link href={`/product-situations/list`}>Listar</Link><br />
@@ -90,6 +91,6 @@ export default function CreateProductSituation() {
                 {loading ? "Enviando..." : "Cadastrar"}
             </button>
         </form>
-    </div>
+    </ProtectedRoute>
   )
 }

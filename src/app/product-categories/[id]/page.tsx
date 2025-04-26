@@ -7,6 +7,7 @@ import Menu from "@/app/components/Menu";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import DeleteButton from "@/app/components/DeleteButton";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
 interface ProductCategory {
     id: number,
@@ -64,7 +65,7 @@ export default function ProductCategoryDetails(){
     }, [id]); //Recarregar os dados quando o ID mudar
 
     return(
-        <div>
+        <ProtectedRoute>
              <Menu/> <br />
              <Link href={`/product-categories/list`}>Listar</Link>
               <Link href={`/product-categories/${id}/edit`}>Editar</Link>
@@ -96,6 +97,6 @@ export default function ProductCategoryDetails(){
                     <p>Editado em: {new Date(productCategory.updatedAt).toLocaleString()}</p>
                 </div>
             )}
-        </div>
+        </ProtectedRoute>
     )
 }
