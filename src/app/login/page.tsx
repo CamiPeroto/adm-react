@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";//importar hooks para usar UseState
+import { useState, useEffect } from "react";//importar hooks para usar UseState
 //importa hooks para manipular a navegação do usuário
 import { useRouter } from "next/navigation";
 //adaptador para conectar o react-hook-form com bibliotecas de validação yup
@@ -74,6 +74,32 @@ export default function LoginPage(){
         setLoading(false);
     }
 }
+      // Hook para buscar os dados na primeira renderização
+      useEffect(() => {
+
+        // Recuperar a mensagem de sucesso salva no sessionStorage
+        const successMessage = sessionStorage.getItem("successMessage");
+
+        // Verificar se existe a mensagem
+        if (successMessage) {
+            // Atribuir a mensagem
+            setSuccess(successMessage);
+            // Remover para evitar duplicação
+            sessionStorage.removeItem("successMessage");
+        }
+
+        // Recuperar a mensagem de error salva no sessionStorage
+        const errorMessage = sessionStorage.getItem("errorMessage");
+
+        // Verificar se existe a mensagem
+        if (errorMessage) {
+            // Atribuir a mensagem
+            setError(errorMessage);
+            // Remover para evitar duplicação
+            sessionStorage.removeItem("errorMessage");
+        }
+
+    }, []);
     return(
         <div>
                 <h1>Login</h1>
@@ -114,6 +140,9 @@ export default function LoginPage(){
                      </button>
                      <ul>
                           <li> <a href="/sign-up">Cadastre-se</a></li>
+                     </ul>
+                     <ul>
+                          <li> <a href="/recover-password">Recuperar senha</a></li>
                      </ul>
                 </form>
         </div>
