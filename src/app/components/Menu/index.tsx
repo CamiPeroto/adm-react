@@ -14,6 +14,7 @@ const Menu = () => {
             <ul>
                 <li> <a href="/">Dashboard</a></li>
                 <li> <a href="/situations/list">Situações</a></li>
+                <li> <a href="/products/list">Produtos</a></li>
                 <li> <a href="/product-situations/list">Situações Produtos</a></li>
                 <li> <a href="/product-categories/list">Categorias Produtos</a></li>
                 <li> <a href="/users/list">Usuários</a></li>
