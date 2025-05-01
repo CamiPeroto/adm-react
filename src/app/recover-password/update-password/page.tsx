@@ -22,6 +22,8 @@ import instance from "@/service/api";
 
 // Importar o componente para criar link
 import Link from "next/link";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import AlertMessage from "@/app/components/AlertMessage";
 
 // Esquema de validação com Yup
 const schema = yup.object().shape({
@@ -160,39 +162,43 @@ export default function UpdatePassword() {
     }, []);
 
     return (
-        <div>
-
-            <h1>Recuperar Senha</h1>
+        <div className="bg-login">
+            <div className="card-login">
+                 <div className="logo-wrapper-login">
+                    <a href="/">
+                     <img src="/images/logo.ico" alt="Loogo" className="logo-login" />
+                     </a>
+                 </div>
+            <h1 className="title-login">Recuperar Senha</h1>
 
             {/* Exibir o carregando */}
-            {loading && <p>Carregando...</p>}
-            {/* Exibe mensagem de erro */}
-            {error && <p style={{ color: "#f00" }}>{error}</p>}
-            {/* Exibe mensagem de sucesso */}
-            {success && <p style={{ color: "#086" }}>{success}</p>}
+            {loading && <LoadingSpinner/>}
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="password">Senha: </label>
+            {/* Exibe mensagem de erro */}
+            <AlertMessage type="error" message={error}/>
+            {/* Exibe mensagem de sucesso */}
+            <AlertMessage type="success" message={success}/>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+                <div className="form-group-login">
+                    <label htmlFor="password" className="form-label-login"> Nova Senha: </label>
                     <input
                         type="password"
                         id="password"
                         placeholder="Senha com mínimo 6 caracteres"
                         {...register('password')}
-                        className="border"
+                        className="form-input-login"
                     /><br />
-                    {/* Exibe o erro de validação do campo */}
-                    {errors.password && <p style={{ color: "#f00" }}>{errors.password.message}</p>}
+                    {errors.password &&  <AlertMessage type="error" message={errors.password.message ?? null}/>}
 
                 </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? "Enviando..." : "Atualizar"}
-                </button>
+                <div className="btn-group-login">
+                    <Link href="/login" className="link-login">Login</Link>
+                    <button type="submit" className="btn-primary-md" disabled={loading}> {loading ? "Enviando..." : "Atualizar"}</button>
+                </div>
             </form>
-
-            <Link href="/login">Login</Link>
-
         </div>
+    </div>
     )
 }
 

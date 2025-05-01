@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import * as yup from 'yup';
 import instance from "@/service/api";
 import Link from "next/link";
+import LoadingSpinner from "../components/LoadingSpinner";
+import AlertMessage from "../components/AlertMessage";
 
 //esquema de validação com yup
 const schema = yup.object().shape({
@@ -75,56 +77,69 @@ export default function signUpPage(){
     }
 }
     return(
-        <div>
-                <h1>Cadastrar</h1>
+        <div className="bg-login">
+            <div className="card-login">
+                  <div className="logo-wrapper-login">
+                    <Link href="/">
+                        <img src="/images/logo.ico" alt="Loogo" className="logo-login" />
+                    </Link>
+        </div>
+        <h1 className="title-login">Novo Usuário</h1>
+               
                 {/* exibir mensagem de carregamento */}
-                {loading && <p>Carregando...</p>}
+                {loading && <LoadingSpinner/>}
                 {/* exibir erro, se houver */}
-                {error && <p style ={{color: "#f00"}}>{error}</p>}
+                {/* {error && <p className="alert-danger">{error}</p>} */}
+                 <AlertMessage type="error" message={error}/>
                 {/* exibir sucesso, se houver */}
-                {success && <p style ={{color: "#086"}}>{success}</p>}
+                {/* {success && <p className="alert-success">{success}</p>} */}
+                 <AlertMessage type="success" message={success}/>
                 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                        <label htmlFor="name">Nome: </label>
+                <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+                <div className="form-group-login">
+                        <label htmlFor="name" className="form-label-login">Nome: </label>
                         <input 
                             type="text" 
                             id="name" 
                             placeholder="Digite seu nome" 
                             {...register('name')}
-                            className="border"
+                            className="form-input-login"
                         />
                         {/* exibe o erro de validação do campo */}
-                        {errors.name && <p style ={{color: "#f00"}}>{errors.name.message}</p>}
+                        {errors.name &&  <AlertMessage type="error" message={errors.name.message ?? null}/>}
                      </div>
-                    <div>
-                        <label htmlFor="email">E-mail: </label>
+                    <div className="form-group-login">
+                        <label htmlFor="email" className="form-label-login">E-mail: </label>
                         <input 
                             type="text" 
                             id="email" 
                             placeholder="email@example.com" 
                             {...register('email')}
-                            className="border"
+                            className="form-input-login"
                         />
                         {/* exibe o erro de validação do campo */}
-                        {errors.email && <p style ={{color: "#f00"}}>{errors.email.message}</p>}
+                        {errors.email &&  <AlertMessage type="error" message={errors.email.message ?? null}/>}
                      </div>
-                     <div>
-                        <label htmlFor="password">Senha: </label>
+                     <div className="form-group-login">
+                        <label htmlFor="password" className="form-label-login">Senha: </label>
                         <input 
                             type="password" 
                             id="password" 
                             placeholder="Digite sua senha" 
                             {...register('password')}
-                            className="border"
+                            className="form-input-login"
                         />
                         {/* exibe o erro de validação do campo */}
-                        {errors.password && <p style ={{color: "#f00"}}>{errors.password.message}</p>}
+                        {errors.password &&  <AlertMessage type="error" message={errors.password.message ?? null}/>}
                      </div>
-                     <button type="submit" disabled ={loading}>
-                         {loading ? "Acessando..." : "Acessar"}
-                     </button>
+                     <div className="btn-group-login">
+                        <Link href="login" className="link-login"> Login </Link>
+                        <button type="submit" className="btn-primary-md" disabled={loading}>
+                        {loading ? "Cadastrando..." : "Cadastrar"}
+                        </button>
+                     </div>
                 </form>
+             </div>
         </div>
     )
 

@@ -22,6 +22,8 @@ import instance from "@/service/api";
 
 // Importar o componente para criar link
 import Link from "next/link";
+import LoadingSpinner from "../components/LoadingSpinner";
+import AlertMessage from "../components/AlertMessage";
 
 // Esquema de validação com Yup
 const schema = yup.object().shape({
@@ -100,39 +102,45 @@ export default function RecoverPassword() {
     }
 
     return (
-        <div>
-
-            <h1>Recuperar Senha</h1>
+        <div className="bg-login">
+            <div className="card-login">
+                 <div className="logo-wrapper-login">
+                    <a href="/">
+                     <img src="/images/logo.ico" alt="Loogo" className="logo-login" />
+                     </a>
+                 </div>
+            <h1 className="title-login">Recuperar Senha</h1>
 
             {/* Exibir o carregando */}
-            {loading && <p>Carregando...</p>}
-            {/* Exibe mensagem de erro */}
-            {error && <p style={{ color: "#f00" }}>{error}</p>}
+            {loading && <LoadingSpinner/>}
+            <AlertMessage type="error" message={error}/>
             {/* Exibe mensagem de sucesso */}
-            {success && <p style={{ color: "#086" }}>{success}</p>}
+            <AlertMessage type="success" message={success}/>
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                <label htmlFor="email">E-mail: </label>
+            <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+                <div className="form-group-login">
+                <label htmlFor="email" className="form-label-login">E-mail: </label>
                     <input
                         type="email"
                         id="email"
-                        placeholder="Melhor e-mail"
+                        placeholder="Digite seu e-mail cadastrado"
                         {...register('email')}
-                        className="border"
+                        className="form-input-login"
                     /><br />
                     {/* Exibe o erro de validação do campo */}
-                    {errors.email && <p style={{ color: "#f00" }}>{errors.email.message}</p>}
+                    {errors.email &&  <AlertMessage type="error" message={errors.email.message ?? null}/>}
 
                 </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? "Enviando..." : "Recuperar"}
-                </button>
-            </form>
-
-            <Link href="/login">Login</Link>
-
-        </div>
+                <div className="btn-group-login">
+                    <Link href="login" className="link-login">Login</Link>
+                    <button type="submit" className="btn-primary-md">Recuperar</button>
+                </div>
+                <div className="ref-login">
+                    <Link href="sign-up" className="link-login">Criar conta</Link>
+                </div>
+        </form>
+    </div>
+</div>
     )
 }
 
