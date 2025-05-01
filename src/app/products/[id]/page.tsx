@@ -25,6 +25,9 @@ import DeleteButton from "@/app/components/DeleteButton";
 
 // Importar componente de proteção de rotas
 import ProtectedRoute from "@/app/components/ProtectedRoute";
+import Layout from "@/app/components/Layout";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import AlertMessage from "@/app/components/AlertMessage";
 
 // Definir tipos para a resposta da API
 interface Product {
@@ -120,48 +123,97 @@ export default function ProductDetails() {
     }, [id]); // Recarrega os dados quando o id mudar
 
     return (
-        <ProtectedRoute>
+        <Layout>
+      <main className="main-content">
+        <div className="content-wrapper">
+          <div className="content-header">
+            <h2 className="content-title">Produtos</h2>
+            <nav className="breadcrumb">
+              <span>Visualizar</span>
+            </nav>
+          </div>
+        </div>
+        <div className="content-box">
+          <div className="content-box-header">
+            <h3 className="content-box-title">Visualizar</h3>
+            <div className="content-box-btn">
+              <a href="/products/list" className="btn-info">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                  />
+                </svg>
+              </a>
 
-            <Menu /><br />
+              <a href={`/products/${id}/edit`} className="btn-warning hidden md:flex items-center space-x-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
 
-            <Link href={`/products/list`}>Listar</Link><br />
-
-            <Link href={`/products/${id}/edit`}>Editar</Link>
-
-            {product && !loading && !error && (
-                <DeleteButton
-                    id={String(product.id)}
-                    route="products"
-                    onSuccess={handleSuccess}
-                    setError={setError}
-                    setSuccess={setSuccess}
-                />
-            )}
-
-            <h1>Detalhes da Situação</h1><br />
-
-            {/* Exibir o carregando */}
-            {loading && <p>Carregando...</p>}
-            {/* Exibe mensagem de erro */}
-            {error && <p style={{ color: "#f00" }}>{error}</p>}
-            {/* Exibe mensagem de sucesso */}
-            {success && <p style={{ color: "#086" }}>{success}</p>}
+          <div className="content-box-body">
+            {/* exibir mensagem de carregamento */}
+            {loading && <LoadingSpinner />}
+            {/* exibir erro, se houver */}
+            {/* {error && <p className="alert-danger">{error}</p>} */}
+            <AlertMessage type="error" message={error} />
+            {/* exibir sucesso, se houver */}
+            {/* {success && <p className="alert-success">{success}</p>} */}
+            <AlertMessage type="success" message={success} />
 
             {/* Imprimir os detalhes do registro */}
             {product && !loading && !error && (
-                <div>
-                    <p>ID: {product.id}</p>
-                    <p>Nome: {product.name}</p>
-                    <p>Slug: {product.slug}</p>
-                    <p>Preço: {product.price}</p>
-                    <p>Situação: {product.situation?.name}</p>
-                    <p>Situação: {product.category?.name}</p>
-                    <p>Descrição: {product.description}</p>
-                    <p>Criando em: {new Date(product.createdAt).toLocaleString()}</p>
-                    <p>Editado em: {new Date(product.updatedAt).toLocaleString()}</p>
+              <div className="detail-box">
+                <div className="mb-1">
+                  <span className="detail-content">ID: </span>
+                  {product.id}
                 </div>
+                <div className="mb-1">
+                  <span className="detail-content">Nome: </span>
+                  {product.name}
+                </div>    
+                <div className="mb-1">
+                  <span className="detail-content">Preço: </span>
+                  {product.price}
+                </div> 
+                <div className="mb-1">
+                  <span className="detail-content">Categoria: </span>
+                  {product.category?.name}
+                </div>
+                <div className="mb-1">
+                  <span className="detail-content">Situação: </span>
+                  {product.situation?.name}
+                </div>
+                <div className="mb-1">
+                  <span className="detail-content">Slug: </span>
+                  {product.slug}
+                </div> 
+                <div className="mb-1">
+                  <span className="detail-content">Descrição: </span>
+                  {product.description}
+                </div>  
+                <div className="mb-1">
+                  <span className="detail-content">Criado em: </span>
+                  {new Date(product.createdAt).toLocaleString()}
+                </div>
+                <div className="mb-1">
+                  <span className="detail-content">Atualizado em: </span>
+                  {new Date(product.updatedAt).toLocaleString()}
+                </div>
+              </div>
             )}
-        </ProtectedRoute>
+          </div>
+        </div>
+      </main>
+    </Layout>
     )
 }
 

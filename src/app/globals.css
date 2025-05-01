@@ -127,6 +127,14 @@
   @apply bg-gray-50 text-sm p-4;
 }
 /* Fim Main */
+/**** Inicio Detalhes Registro  ****/
+.detail-box{
+  @apply text-shadow-gray-700
+}
+.detail-content{
+  @apply font-bold
+}
+/**** Fim Detalhes Registro ****/
  /* Inicio Botões  */
  .btn-primary {
   @apply bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-gray-400 transition-colors cursor-pointer;
