@@ -101,6 +101,15 @@ export default function SituationDetails() {
                   />
                 </svg>
               </a>
+              {situation && !loading && !error && (
+                <DeleteButton
+                    id={String(situation.id)}
+                    route="users"
+                    onSuccess={handleSuccess}
+                    setError={setError}
+                    setSuccess={setSuccess}
+                />
+            )}
             </div>
           </div>
 

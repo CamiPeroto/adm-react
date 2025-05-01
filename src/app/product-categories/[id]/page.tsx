@@ -101,6 +101,15 @@ export default function ProductCategoryDetails(){
                   />
                 </svg>
               </a>
+              {productCategory && !loading && !error && (
+                <DeleteButton
+                    id={String(productCategory.id)}
+                    route="users"
+                    onSuccess={handleSuccess}
+                    setError={setError}
+                    setSuccess={setSuccess}
+                />
+            )}
             </div>
           </div>
 

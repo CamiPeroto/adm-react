@@ -141,6 +141,15 @@ export default function UserDetails() {
                   />
                 </svg>
               </a>
+              {user && !loading && !error && (
+                <DeleteButton
+                    id={String(user.id)}
+                    route="users"
+                    onSuccess={handleSuccess}
+                    setError={setError}
+                    setSuccess={setSuccess}
+                />
+            )}
             </div>
           </div>
 

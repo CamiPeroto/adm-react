@@ -156,6 +156,15 @@ export default function ProductDetails() {
                   />
                 </svg>
               </a>
+              {product && !loading && !error && (
+                <DeleteButton
+                    id={String(product.id)}
+                    route="users"
+                    onSuccess={handleSuccess}
+                    setError={setError}
+                    setSuccess={setSuccess}
+                />
+            )}
             </div>
           </div>
 

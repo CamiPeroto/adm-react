@@ -100,6 +100,15 @@ export default function ProductSituationDetails() {
                   />
                 </svg>
               </a>
+              {productSituation && !loading && !error && (
+                <DeleteButton
+                    id={String(productSituation.id)}
+                    route="users"
+                    onSuccess={handleSuccess}
+                    setError={setError}
+                    setSuccess={setSuccess}
+                />
+            )}
             </div>
           </div>
 
