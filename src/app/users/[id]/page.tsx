@@ -112,9 +112,12 @@ export default function UserDetails() {
       <main className="main-content">
         <div className="content-wrapper">
           <div className="content-header">
-            <h2 className="content-title">Usuários</h2>
+            <h2 className="content-title">Usuário</h2>
             <nav className="breadcrumb">
-              <span>Visualizar</span>
+              <Link href="/dashboard" className="breadcrumb-link"> 
+              Dashboard</Link>
+              <span>/</span>
+              <span>Usuários</span>
             </nav>
           </div>
         </div>

@@ -72,9 +72,12 @@ export default function ProductCategoryDetails(){
       <main className="main-content">
         <div className="content-wrapper">
           <div className="content-header">
-            <h2 className="content-title">Categorias de Produto</h2>
+            <h2 className="content-title">Categoria de Produto</h2>
             <nav className="breadcrumb">
-              <span>Visualizar</span>
+              <Link href="/dashboard" className="breadcrumb-link"> 
+              Dashboard</Link>
+              <span>/</span>
+              <span>Categorias de Produto</span>
             </nav>
           </div>
         </div>

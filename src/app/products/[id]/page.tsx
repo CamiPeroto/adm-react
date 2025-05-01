@@ -127,9 +127,12 @@ export default function ProductDetails() {
       <main className="main-content">
         <div className="content-wrapper">
           <div className="content-header">
-            <h2 className="content-title">Produtos</h2>
+            <h2 className="content-title">Produto</h2>
             <nav className="breadcrumb">
-              <span>Visualizar</span>
+              <Link href="/dashboard" className="breadcrumb-link"> 
+              Dashboard</Link>
+              <span>/</span>
+              <span>Produtos</span>
             </nav>
           </div>
         </div>

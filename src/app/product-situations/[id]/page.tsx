@@ -71,9 +71,12 @@ export default function ProductSituationDetails() {
       <main className="main-content">
         <div className="content-wrapper">
           <div className="content-header">
-            <h2 className="content-title">Situações de Produto</h2>
+            <h2 className="content-title">Situação de Produto</h2>
             <nav className="breadcrumb">
-              <span>Visualizar</span>
+              <Link href="/dashboard" className="breadcrumb-link"> 
+              Dashboard</Link>
+              <span>/</span>
+              <span>Situações de Produto</span>
             </nav>
           </div>
         </div>
