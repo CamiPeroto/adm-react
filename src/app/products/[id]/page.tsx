@@ -131,7 +131,7 @@ export default function ProductDetails() {
             <nav className="breadcrumb">
               <Link href="/dashboard" className="breadcrumb-link"> 
               Dashboard</Link>
-              <span>/</span>
+              <span> / </span>
               <span>Produtos</span>
             </nav>
           </div>

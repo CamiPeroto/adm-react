@@ -75,7 +75,7 @@ export default function ProductSituationDetails() {
             <nav className="breadcrumb">
               <Link href="/dashboard" className="breadcrumb-link"> 
               Dashboard</Link>
-              <span>/</span>
+              <span> / </span>
               <span>Situações de Produto</span>
             </nav>
           </div>

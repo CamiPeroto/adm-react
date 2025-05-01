@@ -116,7 +116,7 @@ export default function UserDetails() {
             <nav className="breadcrumb">
               <Link href="/dashboard" className="breadcrumb-link"> 
               Dashboard</Link>
-              <span>/</span>
+              <span> / </span>
               <span>Usuários</span>
             </nav>
           </div>

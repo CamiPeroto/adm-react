@@ -76,7 +76,7 @@ export default function ProductCategoryDetails(){
             <nav className="breadcrumb">
               <Link href="/dashboard" className="breadcrumb-link"> 
               Dashboard</Link>
-              <span>/</span>
+              <span> / </span>
               <span>Categorias de Produto</span>
             </nav>
           </div>
