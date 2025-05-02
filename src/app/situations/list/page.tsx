@@ -9,6 +9,7 @@ import LoadingSpinner from "@/app/components/LoadingSpinner";
 import AlertMessage from "@/app/components/AlertMessage";
 
 
+
 //definir tipos para a resposta da API
 interface Situation {
     id: number,
@@ -36,7 +37,7 @@ export default function SituationList(){
             //Iniciar o carregamento 
             setLoading(true);
             //Fazer a requisição à API
-            const response = await instance.get(`/situations?page=${page}&limit=10`);
+            const response = await instance.get(`/situations?page=${page}&limit=5`);
             //Atualizar o estado com os dados da API
             setSituations (response.data.data);
             //Atualizar a página atual
@@ -150,6 +151,11 @@ export default function SituationList(){
                    ))}
                 </tbody>
               </table>
+              <Pagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                onPageChange={setCurrentPage}
+              />
             </div>
           </div>
         </main>

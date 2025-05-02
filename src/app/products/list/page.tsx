@@ -186,6 +186,11 @@ export default function ProductsList() {
                    ))}
                 </tbody>
               </table>
+              <Pagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                onPageChange={setCurrentPage}
+              />
             </div>
           </div>
         </main>

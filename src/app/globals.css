@@ -157,6 +157,20 @@
   }
 
 /* Fim da tabela listar registros  */
+/* Inicio Paginação */
+.button-base{
+  @apply px-2 py-1 border-gray-200 rounded-md;
+}
+.button-enabled{
+  @apply bg-white text-gray-600 hover:bg-gray-100 cursor-pointer;
+}
+.button-disabled{
+ @apply bg-white text-gray-600;
+}
+.button-active{
+ @apply bg-blue-500 text-white;
+}
+/* Fim Paginação */
 
 /**** Inicio Formulário  ****/
 .form-label{

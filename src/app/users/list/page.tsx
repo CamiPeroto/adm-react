@@ -176,6 +176,13 @@ export default function UsersList() {
                  ))}
               </tbody>
             </table>
+          
+            <Pagination
+            currentPage={currentPage}
+            lastPage={lastPage}
+            onPageChange={setCurrentPage}
+            />
+
           </div>
         </div>
       </main>

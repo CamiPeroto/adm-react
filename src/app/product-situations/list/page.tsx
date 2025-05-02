@@ -35,7 +35,7 @@ export default function productSituationList(){
             //Iniciar o carregamento 
             setLoading(true);
             //Fazer a requisição à API
-            const response = await instance.get(`/product-situations?page=${page}&limit=10`);
+            const response = await instance.get(`/product-situations?page=${page}&limit=5`);
             //Atualizar o estado com os dados da API
             setProductSituations (response.data.data);
             //Atualizar a página atual
@@ -148,6 +148,11 @@ export default function productSituationList(){
                    ))}
                 </tbody>
               </table>
+              <Pagination
+                currentPage={currentPage}
+                lastPage={lastPage}
+                onPageChange={setCurrentPage}
+               />
             </div>
           </div>
         </main>
