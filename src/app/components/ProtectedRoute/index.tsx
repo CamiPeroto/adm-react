@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 //hook responsável por validar o token
 import { useAuth } from "@/hooks/useAuth";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
 
 //Criar initerface para tipar o parametro children do componente
 interface ProtectedRouteProps {
@@ -15,7 +16,7 @@ export default function ProtectedRoute({children} : ProtectedRouteProps){
     //Verifica se está autenticado
     if(!authenticated){
         //mostrar algo enquanto redireciona
-        return <p>Careegando...</p>
+        return <LoadingSpinner/>
     }
     //Retorna o conteúdo protegido caso o usuário esteja autenticado
     return <>{ children }</>

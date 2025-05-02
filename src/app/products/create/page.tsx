@@ -19,12 +19,9 @@ import instance from "@/service/api";
 
 // Importar o componente para criar link
 import Link from "next/link";
-
-// Importar o componente com o Menu
-import Menu from "@/app/components/Menu";
-
-// Importar componente de proteção de rotas
-import ProtectedRoute from "@/app/components/ProtectedRoute";
+import Layout from "@/app/components/Layout";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import AlertMessage from "@/app/components/AlertMessage";
 
 // Esquema de validação com Yup
 const schema = yup.object().shape({
@@ -101,74 +98,109 @@ export default function CreateProduct() {
     }
 
     return (
-        <ProtectedRoute>
-            <Menu /><br />
+        <Layout>
 
-            <Link href={`/products/list`}>Listar</Link><br />
-
-            <h1>Cadastrar Produto</h1>
-
-            {/* Exibir o carregando */}
-            {loading && <p>Carregando...</p>}
-            {/* Exibe mensagem de erro */}
-            {error && <p style={{ color: "#f00" }}>{error}</p>}
-            {/* Exibe mensagem de sucesso */}
-            {success && <p style={{ color: "#086" }}>{success}</p>}
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                    <label htmlFor="name">Nome: </label>
-                    <input
-                        type="text"
-                        id="name"
-                        placeholder="Nome do produto"
-                        {...register('name')}
-                        className="border"
-                    /><br />
-                    {/* Exibe o erro de validação do campo */}
-                    {errors.name && <p style={{ color: "#f00" }}>{errors.name.message}</p>}
-
-                    <label htmlFor="slug">Slug: </label>
-                    <input
-                        type="text"
-                        id="slug"
-                        placeholder="Nome do produto na URL"
-                        {...register('slug')}
-                        className="border"
-                    /><br />
-                    {/* Exibe o erro de validação do campo */}
-                    {errors.slug && <p style={{ color: "#f00" }}>{errors.slug.message}</p>}
-
-                    <label htmlFor="description">Descrição: </label>
-                    <input
-                        type="text"
-                        id="description"
-                        placeholder="Descrição do produto"
-                        {...register('description')}
-                        className="border"
-                    /><br />
-                    {/* Exibe o erro de validação do campo */}
-                    {errors.description && <p style={{ color: "#f00" }}>{errors.description.message}</p>}
-
-                    <label htmlFor="price">Preço: </label>
-                    <input
-                        type="text"
-                        id="price"
-                        placeholder="Preço do produto. Ex: 2.45"
-                        {...register('price')}
-                        className="border"
-                    /><br />
-                    {/* Exibe o erro de validação do campo */}
-                    {errors.price && <p style={{ color: "#f00" }}>{errors.price.message}</p>}
-
+        <main className="main-content">
+            <div className="content-wrapper">
+                <div className="content-header">
+                    <h2 className="content-title">Produto</h2>
+                    <nav className="breadcrumb">
+                        <Link href="/dashboard" className="breadcrumb-link">Dashboard</Link>
+                        <span> / </span>
+                        <Link href="/products/list" className="breadcrumb-link">Produtos</Link>
+                        <span> / </span>
+                        <span>Cadastrar</span>
+                    </nav>
                 </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? "Enviando..." : "Cadastrar"}
-                </button>
-            </form>
+            </div>
 
+            <div className="content-box">
+                <div className="content-box-header">
+                    <h3 className="content-box-title">Cadastrar</h3>
+                    <div className="content-box-btn">
+                        <a href="/products/list" className="btn-info align-icon-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                                stroke="currentColor" className="size-5">
+                                <path strokeLinecap="round" strokeLinejoin="round"
+                                    d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
 
-        </ProtectedRoute>
+                {/* Exibir o carregando */}
+                {loading && <LoadingSpinner />}
+
+                {/* Exibe mensagem de erro */}
+                <AlertMessage type="error" message={error} />
+                {/* Exibe mensagem de sucesso */}
+                <AlertMessage type="success" message={success} />
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-4">
+                        <label htmlFor="name" className="form-label">Nome: </label>
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Nome do produto"
+                            {...register('name')}
+                            className="form-input"
+                        />
+                        {/* Exibe o erro de validação do campo */}
+                        {errors.name && <AlertMessage type="error" message={errors.name.message ?? null} />}
+                    </div>
+
+                    <div className="mb-4">
+                        <label htmlFor="slug" className="form-label">Slug: </label>
+                        <input
+                            type="text"
+                            id="slug"
+                            placeholder="Nome do produto na URL"
+                            {...register('slug')}
+                            className="form-input"
+                        />
+                        {/* Exibe o erro de validação do campo */}
+                        {errors.slug && <AlertMessage type="error" message={errors.slug.message ?? null} />}
+                    </div>
+
+                    <div className="mb-4">
+
+                        <label htmlFor="description" className="form-label">Descrição: </label>
+                        <input
+                            type="text"
+                            id="description"
+                            placeholder="Descrição do produto"
+                            {...register('description')}
+                            className="form-input"
+                        />
+                        {/* Exibe o erro de validação do campo */}
+                        {errors.description && <AlertMessage type="error" message={errors.description.message ?? null} />}
+                    </div>
+
+                    <div className="mb-4">
+
+                        <label htmlFor="price" className="form-label">Preço: </label>
+                        <input
+                            type="text"
+                            id="price"
+                            placeholder="Preço do produto. Ex: 2.45"
+                            {...register('price')}
+                            className="form-input"
+                        />
+                        {/* Exibe o erro de validação do campo */}
+                        {errors.price && <AlertMessage type="error" message={errors.price.message ?? null} />}
+                    </div>
+
+                    <button type="submit" disabled={loading} className="btn-success">
+                        {loading ? "Cadastrado..." : "Cadastrar"}
+                    </button>
+                </form>
+
+            </div>
+
+        </main>
+
+    </Layout>
     )
 }
 
