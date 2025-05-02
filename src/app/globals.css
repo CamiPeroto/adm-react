@@ -127,6 +127,36 @@
   @apply bg-gray-50 text-sm p-4;
 }
 /* Fim Main */
+  /* Início da tabela listar registros  */
+  .table-container {
+    @apply overflow-hidden bg-white shadow-sm;
+  }
+  .table {
+    @apply min-w-full divide-y divide-gray-200 border-separate border-spacing-0;
+  }
+  .table-row-header {
+    @apply bg-gray-50;
+  }
+  .table-header {
+    @apply px-6 py-3 text-left text-sm font-medium text-shadow-gray-500 tracking-wider border-b border-gray-200;
+  }
+  .table-header.center {
+    @apply text-center;
+  }
+  .table-body {
+    @apply px-6 py-2 text-sm text-gray-900 border-b border-gray-200;
+  }
+  .table-row-body {
+    @apply hover:bg-gray-50;
+  }
+  .table-actions {
+    @apply text-center space-x-1 flex justify-center items-center;
+  }
+  .table-actions a {
+    @apply inline-block;
+  }
+
+  /* Fim da tabela listar registros  */
 /**** Inicio Detalhes Registro  ****/
 .detail-box{
   @apply text-shadow-gray-700
