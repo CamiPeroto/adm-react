@@ -5,11 +5,8 @@ import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import instance from "@/service/api";
 import Link from "next/link";
-import Menu from "@/app/components/Menu";
 import DeleteButton from "@/app/components/DeleteButton";
 import Layout from "@/app/components/Layout";
-//importar componente de proteção de rotas
-import ProtectedRoute from "@/app/components/ProtectedRoute";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import AlertMessage from "@/app/components/AlertMessage";
 interface Situation {

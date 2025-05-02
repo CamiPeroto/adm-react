@@ -16,15 +16,8 @@ import instance from "@/service/api";
 
 // Importar o componente para criar link
 import Link from "next/link";
-
-// importar o componente com o Menu
-import Menu from "@/app/components/Menu";
-
 // Importa o componente para apagar registro
 import DeleteButton from "@/app/components/DeleteButton";
-
-// Importar componente de proteção de rotas
-import ProtectedRoute from "@/app/components/ProtectedRoute";
 import Layout from "@/app/components/Layout";
 import LoadingSpinner from "@/app/components/LoadingSpinner";
 import AlertMessage from "@/app/components/AlertMessage";

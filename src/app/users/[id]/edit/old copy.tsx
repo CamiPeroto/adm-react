@@ -28,9 +28,6 @@ import Menu from "@/app/components/Menu";
 
 // Importar componente de proteção de rotas
 import ProtectedRoute from "@/app/components/ProtectedRoute";
-import Layout from "@/app/components/Layout";
-import LoadingSpinner from "@/app/components/LoadingSpinner";
-import AlertMessage from "@/app/components/AlertMessage";
 
 // Esquema de validação com Yup
 const schema = yup.object().shape({
@@ -151,90 +148,53 @@ export default function EditUser() {
     }, [id]); // Recarrega os dados quando o id mudar
 
     return (
-        <Layout>
+        <ProtectedRoute>
+            <Menu /><br />
 
-            <main className="main-content">
-                <div className="content-wrapper">
-                    <div className="content-header">
-                        <h2 className="content-title">Usuário</h2>
-                        <nav className="breadcrumb">
-                            <Link href="/dashboard" className="breadcrumb-link">Dashboard</Link>
-                            <span> / </span>
-                            <Link href="/users/list" className="breadcrumb-link">Usuários</Link>
-                            <span> / </span>
-                            <span>Editar</span>
-                        </nav>
-                    </div>
-                </div>
+            <Link href={`/users/list`}>Listar</Link><br />
 
-                <div className="content-box">
-                    <div className="content-box-header">
-                        <h3 className="content-box-title">Editar</h3>
-                        <div className="content-box-btn">
-                            <a href="/users/list" className="btn-info align-icon-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                    stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                        d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" />
-                                </svg>
-                                <span>Listar</span>
-                            </a>
+            <Link href={`/users/${id}`}>Visualizar</Link>
 
-                            <a href={`/users/${id}`} className="btn-primary align-icon-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                    stroke="currentColor" className="size-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round"
-                                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                </svg>
-                                <span>Visualizar</span>
-                            </a>
-                        </div>
-                    </div>
+            <h1>Editar Usuário</h1><br />
 
-                    {/* Exibir o carregando */}
-                    {loading && <LoadingSpinner />}
+            {/* Exibir o carregando */}
+            {loading && <p>Carregando...</p>}
+            {/* Exibe mensagem de erro */}
+            {error && <p style={{ color: "#f00" }}>{error}</p>}
+            {/* Exibe mensagem de sucesso */}
+            {success && <p style={{ color: "#086" }}>{success}</p>}
 
-                    {/* Exibe mensagem de erro */}
-                    <AlertMessage type="error" message={error} />
-                    {/* Exibe mensagem de sucesso */}
-                    <AlertMessage type="success" message={success} />
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                    <label htmlFor="name">Nome: </label>
+                    <input
+                        type="text"
+                        id="name"
+                        placeholder="Nome completo do usuário"
+                        {...register('name')}
+                        className="border"
+                    /><br/>
+                    {/* Exibe o erro de validação do campo */}
+                    {errors.name && <p style={{ color: "#f00" }}>{errors.name.message}</p>}
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="mb-4">
-                            <label htmlFor="name" className="form-label">Nome: </label>
-                            <input
-                                type="text"
-                                id="name"
-                                placeholder="Nome completo do usuário"
-                                {...register('name')}
-                                className="form-input"
-                            />
-                            {/* Exibe o erro de validação do campo */}
-                            {errors.name && <AlertMessage type="error" message={errors.name.message ?? null} />}
-                        </div>
-
-                        <div className="mb-4">
-                            <label htmlFor="email" className="form-label">E-mail: </label>
-                            <input
-                                type="email"
-                                id="email"
-                                placeholder="Melhor e-mail do usuário"
-                                {...register('email')}
-                                className="form-input"
-                            />
-                            {/* Exibe o erro de validação do campo */}
-                            {errors.email && <AlertMessage type="error" message={errors.email.message ?? null} />}
-                        </div>
-
-                        <button type="submit" disabled={loading} className="btn-warning">
-                            {loading ? "Salvando..." : "Salvar"}
-                        </button>
-                    </form>
+                    <label htmlFor="email">E-mail: </label>
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Melhor e-mail do usuário"
+                        {...register('email')}
+                        className="border"
+                    /><br/>
+                    {/* Exibe o erro de validação do campo */}
+                    {errors.email && <p style={{ color: "#f00" }}>{errors.email.message}</p>}
 
                 </div>
+                <button type="submit" disabled={loading}>
+                    {loading ? "Enviando..." : "Salvar"}
+                </button>
+            </form>
 
-            </main>
 
-        </Layout>
+        </ProtectedRoute>
     )
 }
