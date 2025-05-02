@@ -1,11 +1,12 @@
 'use client'
 import instance from "@/service/api";
 import { useEffect, useState } from "react";
-import Menu from "@/app/components/Menu";
 import DeleteButton from "@/app/components/DeleteButton"; 
 import Pagination from "@/app/components/Pagination";
 import Link from "next/link";
-import ProtectedRoute from "@/app/components/ProtectedRoute";
+import Layout from "@/app/components/Layout";
+import LoadingSpinner from "@/app/components/LoadingSpinner";
+import AlertMessage from "@/app/components/AlertMessage";
 
 
 //definir tipos para a resposta da API
@@ -70,54 +71,86 @@ export default function productSituationList(){
     }, [currentPage]); //Recarregar os dados sempre que a página for alterada
 
     return(
-        <ProtectedRoute>
-             <Menu/><br />
-             <Link href = {`/product-situations/create`}>Cadastrar</Link> <br />
-            <h1>Listar as situações</h1>
-
-            {/* exibir mensagem de carregamento */}
-            {loading && <p>Carregando...</p>}
-            {/* exibir erro, se houver */}
-            {error && <p style ={{color: "#f00"}}>{error}</p>}
-            {/* exibir sucesso, se houver */}
-            {success && <p style ={{color: "#086"}}>{success}</p>}
-
-            {!loading && !error && (
-                <table>
-                    <thead>
-                        <tr>
-                          <th>ID</th>  
-                          <th> Nome da Situação</th> 
-                          <th>Ações</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productSituations.map((productSituation) => (
-                            <tr key = {productSituation.id}>
-                                <td>{productSituation.id}</td>
-                                <td>{productSituation.name}</td>
-                                <td> <Link href={`/product-situations/${productSituation.id}`}> Visualizar </Link>  
-                                <Link href={`/product-situations/${productSituation.id}/edit`}> - Editar  </Link>
-                                <DeleteButton
-                                   id={String(productSituation.id)}
-                                   route="product-situations"
-                                   onSuccess={handleSuccess}
-                                   setError={setError}
-                                   setSuccess={setSuccess}
-                                   />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
-            {/* Paginação */}
-            <br />
-            <Pagination
-            currentPage={currentPage}
-            lastPage={lastPage}
-            onPageChange={setCurrentPage}
-            />
-        </ProtectedRoute>
+        <Layout>
+        <main className="main-content">
+          <div className="content-wrapper">
+            <div className="content-header">
+              <h2 className="content-title">Situações de Produto</h2>
+              <nav className="breadcrumb">
+                <Link href="/dashboard" className="breadcrumb-link">
+                  Dashboard
+                </Link>
+                <span> / </span>
+                <span>Situações de Produto</span>
+              </nav>
+            </div>
+          </div>
+          <div className="content-box">
+            <div className="content-box-header">
+              <h3 className="content-box-title">Listar</h3>
+              <div className="content-box-btn">
+                <a href="/product-situations/create" className="btn-success align-icon-btn">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+  
+              {/* exibir mensagem de carregamento */}
+              {loading && <LoadingSpinner/>}
+              {/* exibir erro, se houver */}
+              <AlertMessage type="error" message={error}/>
+              {/* exibir sucesso, se houver */}
+              <AlertMessage type="success" message={success}/>
+              
+            <div className="table-container mt-6">
+              <table className="table">
+                <thead>
+                  <tr className="table-row-header">
+                    <th className="table-header">ID</th>
+                    <th className="table-header">Nome da Situação</th>
+                    <th className="table-header center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {productSituations.map((productSituation) => (
+                  <tr className="table-row-body" key={productSituation.id}>
+                    <td className="table-body">{productSituation.id}</td>
+                    <td className="table-body">{productSituation.name}</td>
+                    <td className="table-body table-actions">
+                    
+                    <a href={`/product-situations/${productSituation.id}`} className="btn-primary flex items-center space-x-1">
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>   
+  
+                          </a>
+  
+                          <a href={`/product-situations/${productSituation.id}/edit`} className="btn-warning hidden md:flex items-center space-x-1">
+  
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                            </svg>   
+                          </a>
+                        
+                            <DeleteButton
+                                id={String(productSituation.id)}
+                                route="product-situations"
+                                onSuccess={handleSuccess}
+                                setError={setError}
+                                setSuccess={setSuccess}
+                            />
+                    </td>
+                  </tr>
+                   ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </Layout>
     );
 }
