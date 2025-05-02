@@ -13,7 +13,13 @@ interface DeleteButtonProps {
 const DeleteButton = ({ id, route, onSuccess, setError, setSuccess }: DeleteButtonProps) => {
   //Apresentar carregamento
   const [loading, setLoading] = useState<boolean>(false);
+  
+
   const handleDelete = async () => {
+  //Exibir alerta de confirmação
+  const confirmDelete = window.confirm("Tem certeza que deseja excluir este registro ?")
+  if(!confirmDelete) return;
+
     //Evitar múltiplos cliques
     if (loading) return;
 
