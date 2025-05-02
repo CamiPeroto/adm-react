@@ -1,19 +1,27 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 //importar componente de proteção de rotas
 import ProtectedRoute from "../ProtectedRoute";
 import Navbar from "../NavBar";
 import Sidebar from "../Sidebar";
 
 const Layout = ({ children } : {children: React.ReactNode}) => {
+    //estado para controlar a sidebar aberta/fechada
+    const [isOpen, setIsOpen] = useState(false)
+
+
     return(
         <ProtectedRoute>
             <div className="bg-dashboard">
                 
-                 <Navbar/> 
+                 <Navbar setIsOpen={setIsOpen}/> 
+
                  <div className="flex">
-                    <Sidebar/> 
+
+                    <Sidebar isOpen={isOpen} setIsOpen = {setIsOpen}/> 
+
                      {children}
+
                  </div>
                
             </div>

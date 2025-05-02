@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 
-const Navbar = () => {
+const Navbar = ({setIsOpen}: {setIsOpen: (isOpen:boolean) => void}) => {
 
     //estado para controlar se o dropdown está fechado. começa em false(fechado)
     const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -42,7 +42,7 @@ const Navbar = () => {
     return(
         <nav className="navbar">
         <div className="navbar-container">
-          <button id="toggleSidebar" className="menu-button">
+          <button id="toggleSidebar" className="menu-button" onClick={() => setIsOpen(true)}>
             <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
